@@ -1,0 +1,345 @@
+//1. En un servicio MongoDB local, crear una base de datos llamada empresa, utilizando
+//Mongo Shell (mongo CLI) para realizar esta y todas las acciones (en forma ordenada)
+//que se detallan a continuación:
+
+
+test> use empresa
+switched to db empresa
+
+//Dentro de esta base, crear las colecciones clientes y productos. 
+
+empresa> db.createCollection('clientes')
+{ ok: 1 }
+
+empresa> db.createCollection('productos')
+{ ok: 1 }
+
+//En la colección clientes, insertar 5 documentos con los campos nombre, apellido,
+//edad, telefono y email, con información variada.
+
+
+empresa> db.clientes.insertMany([{nombre:'Damian',apellido:'Martinez',edad:41,telefono:'1554547877',email:'d@gmail.com'},{nombre:'Juan',apellido:'Perez',edad:40,telefono:'1554546666',email:'j@gmail.com'},{nombre:'Jose',apellido:'Velez',edad:61,telefono:'1554547545',email:'jv@gmail.com'},{nombre:'Juan',apellido:'Carlos',edad:33,telefono:'1554547888',email:'jc@gmail.com'},{nombre:'Ana',apellido:'Franck',edad:81,telefono:'1554547888',email:'af@gmail.com'}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("635fa2f9e346f1dd6980a92b"),
+    '1': ObjectId("635fa2f9e346f1dd6980a92c"),
+    '2': ObjectId("635fa2f9e346f1dd6980a92d"),
+    '3': ObjectId("635fa2f9e346f1dd6980a92e"),
+    '4': ObjectId("635fa2f9e346f1dd6980a92f")
+  }
+}
+
+//En la colección productos, ingresar 4 documentos con campos nombre,
+//descripción, stock y precio. Asignarles valores de relleno y variados a cada uno
+//de los documentos.
+
+
+empresa> db.productos.insertMany([{nombre:'Puerta Delantera',descripcion:'Puerta Delantera VW Gol Trend ',stock:12,precio:15000},{nombre:'Radiador',descripcion:'Radiador VW Suran',stock:10,precio:38000},{nombre:'EGR',descripcion:'Cuerpo EGR VW',stock:0, precio:9800},{nombre:'MQ200',descripcion:'Caja Velocidades MQ200',stock:1,precio:450000}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("635fa43ae346f1dd6980a930"),
+    '1': ObjectId("635fa43ae346f1dd6980a931"),
+    '2': ObjectId("635fa43ae346f1dd6980a932"),
+    '3': ObjectId("635fa43ae346f1dd6980a933"),
+  }
+}
+
+//2. Luego con esos datos almacenados y utlizando Mongo Shell (mongo CLI):
+
+//Listar el nombre de las colecciones contenidas en la base de datos empresa.
+
+  
+empresa> show collections
+clientes
+productos
+
+//Representar todos los documentos contenidos dentro de las colecciones clientes productos.
+
+empresa> db.clientes.find()
+[
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92b"),
+    nombre: 'Damian',
+    apellido: 'Martinez',
+    edad: 41,
+    telefono: '1554547877',
+    email: 'd@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92c"),
+    nombre: 'Juan',
+    apellido: 'Perez',
+    edad: 40,
+    telefono: '1554546666',
+    email: 'j@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92d"),
+    nombre: 'Jose',
+    apellido: 'Velez',
+    edad: 61,
+    telefono: '1554547545',
+    email: 'jv@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92e"),
+    nombre: 'Juan',
+    apellido: 'Carlos',
+    edad: 33,
+    telefono: '1554547888',
+    email: 'jc@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92f"),
+    nombre: 'Ana',
+    apellido: 'Franck',
+    edad: 81,
+    telefono: '1554547888',
+    email: 'af@gmail.com'
+
+
+empresa> db.productos.find()
+[
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a930"),
+    nombre: 'Puerta Delantera',
+    descripcion: 'Puerta Delantera VW Gol Trend ',
+    stock: 12,
+    precio: 15000
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a931"),
+    nombre: 'Radiador',
+    descripcion: 'Radiador VW Suran',
+    stock: 10,
+    precio: 38000
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a932"),
+    nombre: 'EGR',
+    descripcion: 'Cuerpo EGR VW Saveiro',
+    stock: 0,
+    precio: 9800
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a934"),
+    nombre: 'MQ200',
+    descripcion: 'Caja Velocidades MQ200',
+    stock: 1,
+    precio: 450000
+  }
+]
+
+//Obtener la cantidad de documentos dentro de cada una de las colecciones.
+
+empresa> db.productos.count()
+DeprecationWarning: Collection.count() is deprecated. Use countDocuments or estimatedDocumentCount.
+4
+empresa> db.productos.countDocuments()
+4
+empresa> db.clientes.countDocuments()
+5
+
+
+//Listar todos los clientes ordenados por edad ascendente.
+
+
+empresa> db.clientes.find().sort({edad:1})
+[
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92e"),
+    nombre: 'Juan',
+    apellido: 'Carlos',
+    edad: 33,
+    telefono: '1554547888',
+    email: 'jc@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92c"),
+    nombre: 'Juan',
+    apellido: 'Perez',
+    edad: 40,
+    telefono: '1554546666',
+    email: 'j@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92b"),
+    nombre: 'Damian',
+    apellido: 'Martinez',
+    edad: 41,
+    telefono: '1554547877',
+    email: 'd@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92d"),
+    nombre: 'Jose',
+    apellido: 'Velez',
+    edad: 61,
+    telefono: '1554547545',
+    email: 'jv@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92f"),
+    nombre: 'Ana',
+    apellido: 'Franck',
+    edad: 81,
+    telefono: '1554547888',
+    email: 'af@gmail.com'
+  }
+]
+
+//Listar todos los productos por orden descendente de stock.
+
+empresa> db.productos.find().sort({stock:-1})
+[
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a930"),
+    nombre: 'Puerta Delantera',
+    descripcion: 'Puerta Delantera VW Gol Trend ',
+    stock: 12,
+    precio: 15000
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a931"),
+    nombre: 'Radiador',
+    descripcion: 'Radiador VW Suran',
+    stock: 10,
+    precio: 38000
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a934"),
+    nombre: 'MQ200',
+    descripcion: 'Caja Velocidades MQ200',
+    stock: 1,
+    precio: 450000
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a932"),
+    nombre: 'EGR',
+    descripcion: 'Cuerpo EGR VW Saveiro',
+    stock: 0,
+    precio: 9800
+  }
+]
+
+//Buscar el producto más caro.
+
+empresa> db.productos.find().sort({"precio" : -1}).limit(1);
+[
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a934"),
+    nombre: 'MQ200',
+    descripcion: 'Caja Velocidades MQ200',
+    stock: 1,
+    precio: 450000
+  }
+]
+
+//Ordenar los clientes por nombre alfabéticamente ascendente y mostrar los dos 
+//primeros resultados.
+
+empresa> db.clientes.find().sort({nombre:1}).limit(2)
+[
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92f"),
+    nombre: 'Ana',
+    apellido: 'Franck',
+    edad: 81,
+    telefono: '1554547888',
+    email: 'af@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92b"),
+    nombre: 'Damian',
+    apellido: 'Martinez',
+    edad: 41,
+    telefono: '1554547877',
+    email: 'd@gmail.com'
+  }
+]
+
+//Elegir un producto y actualizar su precio.
+
+empresa> db.productos.updateOne({nombre: 'EGR'},{$set: {precio: 3333}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+empresa> db.productos.find({"nombre" : "EGR"})
+[
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a932"),
+    nombre: 'EGR',
+    descripcion: 'Cuerpo EGR VW Saveiro',
+    stock: 0,
+    precio: 3333
+  }
+]
+
+//Elegir un cliente y eliminarlo.
+
+empresa> db.clientes.deleteOne({apellido:"Carlos"})
+{ acknowledged: true, deletedCount: 1 }
+
+empresa> db.clientes.countDocuments()
+4
+
+//Listar todos los productos, ordenados por precio ascendente, mostrando sólo los 
+//campos nombre y precio.
+
+
+empresa> db.productos.find({},{nombre: 1,precio:1}).sort({precio:1})
+[
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a932"),
+    nombre: 'EGR',
+    precio: 3333
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a930"),
+    nombre: 'Puerta Delantera',
+    precio: 15000
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a931"),
+    nombre: 'Radiador',
+    precio: 38000
+  },
+  {
+    _id: ObjectId("635fa43ae346f1dd6980a934"),
+    nombre: 'MQ200',
+    precio: 450000
+  }
+]
+
+//Mostrar del listado total de clientes, sólo el nombre y el email
+
+empresa> db.clientes.find({},{nombre: 1,email:1})
+[
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92b"),
+    nombre: 'Damian',
+    email: 'd@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92c"),
+    nombre: 'Juan',
+    email: 'j@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92d"),
+    nombre: 'Jose',
+    email: 'jv@gmail.com'
+  },
+  {
+    _id: ObjectId("635fa2f9e346f1dd6980a92f"),
+    nombre: 'Ana',
+    email: 'af@gmail.com'
+  }
+]
